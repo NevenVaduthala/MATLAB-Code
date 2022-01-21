@@ -1,0 +1,31 @@
+t = 0:.1:5;
+x = zeros(4,length(t));
+x_prime = zeros(4,length(t));
+F_6 = zeros(1,length(t));
+V_road = .1 * cos(10.*t);
+k_1 = 100000;
+m_3 = 1000;
+b_2 = 10000;
+k_4 = 20000;
+b_5 = 2000;
+m_6 = 60;
+g = 9.81;
+x(:,1) = [-.104; 0; -.0294; 0]';
+x_6(1) = 1;
+A = [0 1 0 0; -k_1/m_3 (-b_2 - b_5)/m_3 k_4/m_3 b_5/m_3; 0 -1 0 1; 0 b_5/m_6 -k_4/m_6 -b_5/m_6];
+dt = .01;
+for ii = 1:length(t) - 1
+    T(:,1) = [-V_road(ii); b_2/(m_3 * V_road(ii) - g); 0; F_6(ii)/(m_6 - g)];
+    x_prime(:,1) = A * x(:,1) + T(:,1);
+    x(:,ii+1) = x(:,ii) + x_prime(:,1) * dt;
+    x_6(ii+1) = x_6(ii) + x(4,ii)*dt;
+end
+
+figure(1);
+plot(t,x(4,:))
+xlabel('Time, s')
+ylabel('Velocity of Seat and Person, m')
+figure(2);
+plot(t,x_6)
+xlabel('Time, s')
+ylabel('Displacement of Seat and Person, m/s')
