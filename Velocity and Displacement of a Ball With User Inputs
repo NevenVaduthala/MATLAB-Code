@@ -1,0 +1,22 @@
+v=input('Initial height (m): ')
+h=input('Initial velocity (m/s): ')
+%Exercise 4a
+t=(0:.001:1000)
+h2=(.5*(-9.8)*t.^2)+(v*t)+h
+v2=(-9.8*t)+v
+%Exercise 4b
+v3=v2(v2>=0)
+h3=h2(h2>=0)
+%Exercise 4c and 4d
+tv=t(v3>=0)
+th=t(h3>=0)
+subplot(2,1,1)
+plot(tv,v3)
+xlabel('Time (s)')
+ylabel('Velocity (m/s)')
+title('Velocity at an Initial Velocity of "v0" vs. Time')
+subplot(2,1,2)
+plot(th,h3)
+xlabel('Time(s)')
+ylabel('Height (m)')
+title('Positions at an Inital Position of "x0" vs. Time')
