@@ -1,0 +1,74 @@
+initial = input('How much is your initial balance?\n')
+while initial > 0
+    wager = input('How much do you wager\n');
+    decision = 'h';
+    if wager <= initial
+        [value1, name1] = draw_card;
+        [value2, name2] = draw_card;
+        total = value1 + value2;
+        if total > 21;
+            fprintf ('Bust, you lost! \n')
+            initial = initial - wager;
+            fprintf('You have %d left \n',initial)
+            break
+        end
+        fprintf('How have a %s and %s which adds to of %d \n', name1,name2,total)
+        while decision == 'h'
+            decision = input('Hit or stay? h or s ?\n','s');
+            if decision == 's'
+                continue
+            end
+            [value3, name3] = draw_card;
+            total = total + value3
+            fprintf('The card you drew was %s \n', name3)
+            fprintf('Total score is %d \n',total)
+            if total > 21
+                fprintf('Bust, you lost! \n');
+                initial = initial - wager;
+                fprintf('You have %d left \n',initial);
+                break
+            end
+        end
+        %This is for the dealer
+        if total <= 21
+            [value4, name4] = draw_card;
+            [value5, name5] = draw_card;
+            dealer_total = value4 + value5;
+            fprintf('Dealer has %s and %s and adds up to %d \n', name4, name5, dealer_total)
+            if dealer_total > 21
+                fprintf('Dealer busts, and you win! \n');
+                initial = initial + wager
+                fprintf('You has %d left \n',initial);
+                continue
+            end
+            while dealer_total < 17
+                [value6, name6] = draw_card
+                dealer_total = dealer_total + value6;
+                fprintf('Dealer drew a %s \n',name6);
+                fprintf('Dealer has a total of %d \n', dealer_total)
+            end
+            if dealer_total > 21 
+                fprintf('Dealer busts, you win! \n');
+                initial = initial + wager
+                fprintf('You have %d left \n', initial);
+                continue
+            end
+            if total > dealer_total
+                initial = initial + wager
+                fprintf('You win! You have %d left \n', initial);
+            else fprintf('dealer wins! You lost! \n')
+                initial - initial - wager
+                fprintf('You have %d left \n', initial);
+            end
+        end
+    else
+        fprintf('This wager is not available, input a new wager \n')
+    end
+    if initial > 0
+        decision2 = input('Would you like to continue? y or n\n \n','s')
+        if decision2 == 'n'
+            return
+        end
+    end
+end
+fprintf('No more money left \n')
