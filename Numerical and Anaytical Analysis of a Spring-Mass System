@@ -1,0 +1,79 @@
+k = 1000;
+m_2 = 250;
+dt = .01;
+time = 0:dt:8;
+x_initial = .3;
+v_initial = 0;
+v_initial_2 = .8;
+x_euler(1) = x_initial;
+x_analysis(1) = x_initial;
+v_euler(1) = v_initial;
+v_analysis(1) = v_initial;
+x_analysis_2(1) = x_initial;
+v_analysis_2(1) = v_initial_2;
+A1 = x_initial;
+A2 = v_initial + (m_2/k)^.5;
+A2_new = v_initial_2 * (m_2/k)^.5;
+for ii = 1:length(time)
+    t = time(ii);
+    x_analysis(ii) = A1 * cos(sqrt(k/m_2) * t) + A2*sin(sqrt(k/m_2) * t);
+    v_analysis(ii) = -A1 * sqrt(k/m_2) * sin(sqrt(k/m_2) * t) + A2*sqrt(k/m_2) * cos(sqrt(k/m_2));
+    
+    a(ii) = -k/m_2 * x_euler(ii);
+    v_euler(ii+1) = v_euler(ii) + dt * a(ii);
+    x_euler(ii+1) = x_euler(ii) + dt * v_euler(ii);
+    
+    x_analysis_2(ii) = A1 * cos(sqrt(k/m_2) * t) + A2_new * sin(sqrt(k/m_2) * t);
+    v_analysis_2(ii) = -A1 * sqrt(k/m_2) * sin(sqrt(k/m_2) * t) + A2_new*sqrt(k/m_2) * cos(sqrt(k/m_2));
+    
+end
+
+x_euler = x_euler(1:length(time));
+v_euler = v_euler(1:length(time));
+
+
+figure
+subplot(2,1,1)
+plot(time, x_euler, 'LineWidth',1)
+hold on
+plot(time, x_analysis, 'LineWidth',1)
+hold off
+title('Displacement (dt = ' + string(dt) +')')
+xlabel('Time (s)')
+ylabel('x (m) ')
+legend('x Numerical', 'x exact')
+grid on
+
+subplot(2,1,2)
+plot(time, v_euler, 'LindeWidth', 1)
+hold on
+plot(time, v_analysis, 'LineWidth',1)
+hold off
+title('Velocity (dt = ' + string(dt) + ')')
+xlabel('Time (s)')
+ylabel('V (m/s)')
+legend('v Numerical', 'v Exact')
+grid on
+
+figure 
+subplot(2,1,1)
+plot(time, x_analysis, 'LineWidth' , 1)
+hold on
+plot(time, x_analysis_2, 'm', 'LineWidth' , 1)
+hold off
+title('Displacement (dt = ' + string(dt) +')')
+xlabel('Time (s)')
+ylabel('x (m) ')
+legend('x old initial conditions','x new initial conditions')
+grid on
+
+subplot(2,1,2)
+plot(time, v_analysis,'LineWidth',1)
+hold on
+plot(time, v_analysis_2, 'm', 'LineWidth',1)
+hold off
+title('Velocity (dt = ' + string(dt) + ')')
+xlabel('Time (s)')
+ylabel('V (m/s)')
+legend('v old conditions','v new conditions')
+grid on
